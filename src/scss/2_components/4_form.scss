@@ -1,0 +1,24 @@
+.c-form1 {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid $color2;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+
+  &__footer {
+    width: 100%;
+    display: flex;
+  }
+}
+
+.c-textarea {
+  &__el {
+    padding: 10px;
+    width: 100%;
+    display: block;
+    color: #fff;
+    font-size: 1.8rem;
+    resize: none;
+  }
+}

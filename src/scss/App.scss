@@ -1,0 +1,16 @@
+.App {
+  margin: 20px auto;
+  width: 800px;
+  font-size: 1.4rem;
+
+  .c-textarea {
+    margin-left: 16px;
+    width: 100%;
+    flex: 1 0;
+  }
+
+  .c-btn1 {
+    margin-left: auto;
+    width: 100px;
+  }
+}

@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-import './App.css'
-import TestComponent from './TestComponent'
+import Tweets from './components/Tweets'
+import Textarea from './components/Textarea'
+import Btn1 from './components/Btn1'
+import Icon1 from './components/Icon1'
+
+import User from './json/user.json'
 
 /*
 * TODO:
@@ -11,10 +15,11 @@ import TestComponent from './TestComponent'
 export default class App extends Component {
   constructor() {
     super()
+    this.user = User[1]
     this.state = {
-      title: '',
-      description: '',
-      todoList: JSON.parse(localStorage.getItem('todoList')) || []
+      userId: null,
+      tweet: '',
+      tweetList: JSON.parse(localStorage.getItem('tweetList')) || []
     }
 
     this.submitHandler = this.submitHandler.bind(this)
@@ -22,81 +27,84 @@ export default class App extends Component {
     this.clickHandler = this.clickHandler.bind(this)
   }
 
+  componentDidMount() {
+    this.setState({userId: this.user.id})
+  }
+
   submitHandler(e) {
-    const { title, description, todoList } = this.state
+    const { userId, tweet, tweetList } = this.state
 
     e.preventDefault()
-    if (title && description) {
+    if (tweet) {
       this.setState({
-        title: '',
-        description: '',
-        todoList: todoList.concat({
-          title: title,
-          description: description
+        tweet: '',
+        tweetList: tweetList.concat({
+          userId: userId,
+          date: 0,
+          tweet: tweet
         })
       }, () => {
-        e.target.elements.title.value = ''
-        e.target.elements.description.value = ''
+        e.target.elements.tweet.value = ''
 
-        localStorage.setItem('todoList', JSON.stringify(this.state.todoList))
+        localStorage.setItem('tweetList', JSON.stringify(this.state.tweetList))
       })
     }
   }
 
   changeHandler(e) {
-    this.setState({[e.target.name]: e.target.value})
+    const target = e.target
+
+    if (target.value.length < 14) {
+      this.setState({[target.name]: target.value})
+    } else {
+      window.alert('Over 140 characters.')
+    }
   }
 
   clickHandler(todo) {
-    const { todoList } = this.state
+    const { tweetList } = this.state
     this.setState({
-      todoList: todoList.filter((x) => x !== todo)
+      tweetList: tweetList.filter((x) => x !== todo)
     }, () => {
-      localStorage.setItem('todoList', JSON.stringify(this.state.todoList))
+      localStorage.setItem('tweetList', JSON.stringify(this.state.tweetList))
     })
   }
 
   render() {
-    const { todoList } = this.state
+    const { tweetList } = this.state
+
+    const date = new Date()
+
+    console.log(date)
+
+    console.log(tweetList)
+    // tweetList.filter((a, b) => a.date > b.date)
 
     return (
       <div className="App">
         <form
-          className="App-form"
+          className="c-form1"
           onSubmit={this.submitHandler}
         >
-          <div>
-            <input
-              id="title"
-              name="title"
-              placeholder="title"
-              onChange={this.changeHandler}
+          <Icon1 src={this.user.icon} />
+          <Textarea
+            change={this.changeHandler}
+          />
+          <footer className="c-form1__footer">
+            <Btn1
+              text="ツイート"
             />
-          </div>
-          <div>
-            <input
-              id="description"
-              name="description"
-              placeholder="description"
-              onChange={this.changeHandler}
-            />
-          </div>
-          <div>
-            <button
-              type="submit"
-            >
-              登録
-            </button>
-          </div>
+          </footer>
         </form>
-        {todoList.map((todo, i) => (
-          <TestComponent
+        <div className="c-list1">
+        {tweetList.length > 0 && tweetList.map((tweetInfo, i) => (
+          <Tweets
             key={i}
-            title={todo.title}
-            description={todo.description}
-            onClick={() => {this.clickHandler(todo)}}
+            tweet={tweetInfo}
+            onClick={() => {this.clickHandler(tweetInfo)}}
           />
         ))}
+        </div>
       </div>
     )
   }
