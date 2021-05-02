@@ -3,10 +3,13 @@
 @import './1_layout/layout.scss';
 @import './1_layout/header.scss';
 @import './1_layout/footer.scss';
-@import './2_components/1_btn.scss';
-@import './2_components/2_list.scss';
-@import './2_components/4_form.scss';
+
+@import './2_components/01_btn.scss';
+@import './2_components/04_form.scss';
+@import './2_components/06_navi.scss';
+@import './2_components/08_list.scss';
 @import './2_components/99_other.scss';
+
 @import './App.scss';
 @import './Tweets.scss';
 
@@ -28,6 +31,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+a {
+  display: inline-block;
 }
 
 img {
