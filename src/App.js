@@ -36,12 +36,14 @@ export default class App extends Component {
   submitHandler(e) {
     const { userId, tweet, tweetList } = this.state
     const date = new Date()
+    const timeStamp = Math.floor(date.getTime() / 1000)
 
     e.preventDefault()
     if (tweet) {
       this.setState({
         tweet: '',
         tweetList: tweetList.concat({
+          id: timeStamp,
           userId: userId,
           date: date.toLocaleString(),
           tweet: tweet
