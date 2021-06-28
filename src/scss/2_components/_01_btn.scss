@@ -13,11 +13,33 @@
 }
 
 .c-btn2 {
+  $root: &;
+
   width: 16px;
   height: 16px;
   border-radius: 50%;
 
-  &:hover {
+  svg {
+    path {
+      transition: fill .2s ease-in-out;
+    }
+  }
 
+  &:hover {
+    svg {
+      path {
+        fill: #FFF
+      }
+    }
+  }
+
+  &--selected {
+    @extend #{$root};
+
+    svg {
+      path {
+        fill: #FFF
+      }
+    }
   }
 }

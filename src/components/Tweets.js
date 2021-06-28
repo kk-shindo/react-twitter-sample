@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import Icon1 from './Icon1'
 import User from '../json/user.json'
+import InlineSvg from '../components/InlineSvg'
 
 export default class Tweets extends Component {
   render () {
     const {
       tweet,
+      isFavorite,
+      onClickFavorite,
       ...props
     } = this.props
 
@@ -33,8 +36,12 @@ export default class Tweets extends Component {
               </button>
             </li>
             <li className="c-list3__item">
-              <button type="button" className="c-btn2">
-                <img src="/img/icon/good.svg" alt="" />
+              <button
+                type="button"
+                className={`c-btn2${isFavorite ? '--selected' : ''}`}
+                onClick={() => {onClickFavorite(tweet)}}
+              >
+                <InlineSvg path="/img/icon/good.svg" alt="favorite" />
               </button>
             </li>
           </ul>

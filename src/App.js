@@ -21,12 +21,14 @@ export default class App extends Component {
     this.state = {
       userId: null,
       tweet: '',
-      tweetList: JSON.parse(localStorage.getItem('tweetList')) || []
+      tweetList: JSON.parse(localStorage.getItem('tweetList')) || [],
+      favorites: JSON.parse(localStorage.getItem('favorites')) || []
     }
 
     this.submitHandler = this.submitHandler.bind(this)
     this.changeHandler = this.changeHandler.bind(this)
     this.clickHandler = this.clickHandler.bind(this)
+    this.onClickFavorite = this.onClickFavorite.bind(this)
   }
 
   componentDidMount() {
@@ -52,6 +54,7 @@ export default class App extends Component {
         e.target.elements.tweet.value = ''
 
         localStorage.setItem('tweetList', JSON.stringify(this.state.tweetList))
+        window.alert('ツイートしました')
       })
     }
   }
@@ -75,8 +78,28 @@ export default class App extends Component {
     })
   }
 
+  /** お気に入りを押したときの挙動 */
+  onClickFavorite(tweet) {
+    let { favorites } = this.state
+
+    if (favorites.includes(tweet.id)) {
+      const index = favorites.indexOf(tweet.id)
+      favorites.splice(index, 1)
+    } else {
+      if (favorites.length > 0) {
+        favorites = favorites.concat(tweet.id)
+      } else {
+        favorites = [tweet.id]
+      }
+    }
+
+    this.setState({ favorites }, () => {
+      localStorage.setItem('favorites', JSON.stringify(this.state.favorites))
+    })
+  }
+
   render() {
-    const { tweetList } = this.state
+    const { tweetList, favorites } = this.state
 
     tweetList.sort((a, b) => {
       return new Date(a.date) < new Date(b.date) ? 1 : -1
@@ -128,11 +151,13 @@ export default class App extends Component {
             </footer>
           </form>
           <div className="c-list1">
-          {tweetList.length > 0 && tweetList.map((tweetInfo, i) => (
+          {tweetList.length > 0 && tweetList.map((tweet, i) => (
             <Tweets
               key={i}
-              tweet={tweetInfo}
-              onClick={() => {this.clickHandler(tweetInfo)}}
+              tweet={tweet}
+              onClick={() => {/* this.clickHandler(tweet) */}}
+              isFavorite={favorites.length ? (favorites).includes(tweet.id) : false}
+              onClickFavorite={this.onClickFavorite}
             />
           ))}
           </div>

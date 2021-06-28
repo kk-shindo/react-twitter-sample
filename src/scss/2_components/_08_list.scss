@@ -1,24 +1,19 @@
 .c-list1 {
   margin-top: 16px;
   width: 100%;
+  border: 1px solid $color3;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
 
   &__item {
-    margin-top: 16px;
     padding: 16px;
-    border: 1px solid $color3;
-    border-radius: 8px;
+    border-top: 1px solid $color3;
     display: flex;
-    cursor: pointer;
     transition: opacity .2s ease-in-out;
 
     &:first-child {
-      margin-top: 0;
-    }
-
-    &:hover {
-      opacity: 0.7;
+      border-top-width: 0;
     }
 
     &__inner {
@@ -94,6 +89,9 @@
 
   &__item {
     margin-left: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &:first-child {
       margin-left: 0;
