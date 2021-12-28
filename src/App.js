@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 // import { Link } from 'react-router-dom'
 
-import Tweets from './components/Tweets'
-import Textarea from './components/Textarea'
-import Btn1 from './components/Btn1'
-import Icon1 from './components/Icon1'
-
+/** components */
+import Container from './components/Layout/Container'
+import Tweets from './components/Tweets/index'
+import List1 from './components/List1/'
+import Form from './components/Form/'
 import User from './json/user.json'
 
 /*
@@ -27,9 +27,6 @@ export default function App () {
 
   useEffect(() => {
     localStorage.setItem('tweetList', JSON.stringify(tweetList))
-    // setTweetList((current) => {
-    //   return sortTweetList(current)
-    // })
   }, [tweetList])
 
   const submitHandler = (e) => {
@@ -70,9 +67,9 @@ export default function App () {
     }
   }
 
-  const clickHandler = (todo) => {
+  const removeHandler = (tweet) => {
     setTweetList((current) => {
-      return current.filter((x) => x !== todo)
+      return current.filter((x) => x !== tweet)
     })
     localStorage.setItem('tweetList', JSON.stringify(tweetList))
   }
@@ -103,7 +100,7 @@ export default function App () {
   }
 
   return (
-    <div className="App l-container">
+    <Container className="App">
       <div className="l-container__left">
         <nav className="c-nav1">
           <a href="/" className="c-nav1__logo">
@@ -133,31 +130,24 @@ export default function App () {
       </div>
 
       <div className="l-container__center">
-        <form
-          className="c-form1"
-          onSubmit={submitHandler}
-        >
-          <Icon1 src={user.icon} />
-          <Textarea
-            change={changeHandler}
-          />
-          <footer className="c-form1__footer">
-            <Btn1
-              text="ツイート"
-            />
-          </footer>
-        </form>
-        <div className="c-list1">
-          {(tweetList || []).length > 0 && sortTweetList(tweetList).map((tweet, i) => (
-            <Tweets
-              key={i}
-              tweet={tweet}
-              onClick={() => { clickHandler(tweet) }}
-              isFavorite={favorites.length ? (favorites).includes(tweet.id) : false}
-              onClickFavorite={onClickFavorite}
-            />
-          ))}
-        </div>
+        <Form
+          user={user}
+          submitHandler={submitHandler}
+          changeHandler={changeHandler}
+        />
+        {(tweetList || []).length > 0 &&
+          <List1 style={{marginTop: '16px'}}>
+            {sortTweetList(tweetList).map((tweet, i) => (
+              <Tweets
+                key={i}
+                tweet={tweet}
+                onClick={() => { removeHandler(tweet) }}
+                isFavorite={favorites.length ? (favorites).includes(tweet.id) : false}
+                onClickFavorite={onClickFavorite}
+              />
+            ))}
+          </List1>
+        }
       </div>
 
       <div className="l-container__right">
@@ -165,6 +155,6 @@ export default function App () {
 
         </div>
       </div>
-    </div>
+    </Container>
   )
 }
