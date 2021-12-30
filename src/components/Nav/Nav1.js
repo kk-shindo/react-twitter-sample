@@ -4,6 +4,7 @@ import media from 'styled-media-query'
 
 /** components */
 import List2 from '../List/List2'
+import Button3 from '../Button/Button3'
 
 const StyledNav = styled.nav`
 display: block;
@@ -36,7 +37,7 @@ font-size: 2rem;
 font-weight: bold;
 
 ${media.between('medium', 'large')`
-display: none;
+display: ${props => props.isOpen ? 'flex' : 'none'};
 `}
 `
 
@@ -49,9 +50,8 @@ display: inline-block;
 }
 `
 
-
 /** Nav1 Component */
-export default function Nav1({ ...props }) {
+export default function Nav1({ isOpen, toggleNav, ...props }) {
   return (
     <StyledNav {...props}>
       <StyledA1 href="/" className="c-nav1__logo">
@@ -73,7 +73,7 @@ export default function Nav1({ ...props }) {
               alt=""
               className="c-list2__link__img"
             />
-            <StyledSpan>プロフィール</StyledSpan>
+            <StyledSpan isOpen={isOpen}>プロフィール</StyledSpan>
           </StyledA2>
         </li>
         <li className="c-list2__item">
@@ -85,7 +85,7 @@ export default function Nav1({ ...props }) {
               alt=""
               className="c-list2__link__img"
             />
-            <StyledSpan>プロフィール</StyledSpan>
+            <StyledSpan isOpen={isOpen}>プロフィール</StyledSpan>
           </StyledA2>
         </li>
         <li className="c-list2__item">
@@ -97,10 +97,14 @@ export default function Nav1({ ...props }) {
               alt=""
               className="c-list2__link__img"
             />
-            <StyledSpan>プロフィール</StyledSpan>
+            <StyledSpan isOpen={isOpen}>プロフィール</StyledSpan>
           </StyledA2>
         </li>
       </List2>
+      <Button3
+        direction={isOpen ? 'left' : 'right'}
+        onClick={toggleNav}
+      />
     </StyledNav>
   )
 }

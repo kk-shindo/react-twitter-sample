@@ -23,6 +23,7 @@ export default function App () {
   const [tweet, setTweet] = useState('')
   const [tweetList, setTweetList] = useState([])
   const [favorites, setFavorites] = useState([])
+  const [isNavOpen, setIsNavOpen] = useState(false)
 
   useEffect(() => {
     setTweetList(JSON.parse(localStorage.getItem('tweetList')) || [])
@@ -103,10 +104,18 @@ export default function App () {
     })
   }
 
+  /** ナビ開閉 */
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen)
+  }
+
   return (
     <Container className="App">
-      <ContainerLeft>
-        <Nav1 />
+      <ContainerLeft isOpen={isNavOpen}>
+        <Nav1
+          isOpen={isNavOpen}
+          toggleNav={toggleNav}
+        />
       </ContainerLeft>
 
       <ContainerCenter>
@@ -121,9 +130,9 @@ export default function App () {
               <Tweets
                 key={i}
                 tweet={tweet}
-                onClick={() => { removeHandler(tweet) }}
                 isFavorite={favorites.length ? (favorites).includes(tweet.id) : false}
                 onClickFavorite={onClickFavorite}
+                onClickRemove={() => { removeHandler(tweet) }}
               />
             ))}
           </List1>

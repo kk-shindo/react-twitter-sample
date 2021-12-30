@@ -5,7 +5,7 @@ import media from 'styled-media-query'
 const StyledDiv = styled.div`
 padding-top: 16px;
 
-${media.between('medium', 'large')`
+${media.lessThan('large')`
 padding: 16px;
 `}
 `
