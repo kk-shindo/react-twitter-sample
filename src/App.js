@@ -3,8 +3,12 @@ import React, { useState, useEffect } from 'react'
 
 /** components */
 import Container from './components/Layout/Container'
+import ContainerCenter from './components/Layout/ContainerCenter'
+import ContainerLeft from './components/Layout/ContainerLeft'
+import ContainerRight from './components/Layout/ContainerRight'
+import Nav1 from './components/Nav/Nav1'
 import Tweets from './components/Tweets/index'
-import List1 from './components/List1/'
+import List1 from './components/List/List1'
 import Form from './components/Form/'
 import User from './json/user.json'
 
@@ -101,35 +105,11 @@ export default function App () {
 
   return (
     <Container className="App">
-      <div className="l-container__left">
-        <nav className="c-nav1">
-          <a href="/" className="c-nav1__logo">
-            <img src="/img/logo.svg" alt="" className="c-nav1__logo__img" />
-          </a>
-          <ul className="c-list2">
-            <li className="c-list2__item">
-              <a href="/" className="c-list2__link">
-                <img src="/img/icon/profile.svg" alt="" className="c-list2__link__img" />
-                <span className="c-list2__link__txt">プロフィール</span>
-              </a>
-            </li>
-            <li className="c-list2__item">
-              <a href="/" className="c-list2__link">
-                <img src="/img/icon/profile.svg" alt="" className="c-list2__link__img" />
-                <span className="c-list2__link__txt">プロフィール</span>
-              </a>
-            </li>
-            <li className="c-list2__item">
-              <a href="/" className="c-list2__link">
-                <img src="/img/icon/profile.svg" alt="" className="c-list2__link__img" />
-                <span className="c-list2__link__txt">プロフィール</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+      <ContainerLeft>
+        <Nav1 />
+      </ContainerLeft>
 
-      <div className="l-container__center">
+      <ContainerCenter>
         <Form
           user={user}
           submitHandler={submitHandler}
@@ -148,13 +128,11 @@ export default function App () {
             ))}
           </List1>
         }
-      </div>
+      </ContainerCenter>
 
-      <div className="l-container__right">
-        <div className="">
-
-        </div>
-      </div>
+      <ContainerRight>
+        <div className=""></div>
+      </ContainerRight>
     </Container>
   )
 }
