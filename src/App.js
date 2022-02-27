@@ -26,13 +26,22 @@ export default function App () {
   const [isNavOpen, setIsNavOpen] = useState(false)
 
   useEffect(() => {
+    /** ローカルストレージからtweetsの取得 */
     setTweetList(JSON.parse(localStorage.getItem('tweetList')) || [])
+
+    /** ローカルストレージからfavoritesの取得 */
     setFavorites(JSON.parse(localStorage.getItem('favorites')) || [])
   }, [])
 
   useEffect(() => {
+    /** ローカルストレージにtweetsを登録 */
     localStorage.setItem('tweetList', JSON.stringify(tweetList))
   }, [tweetList])
+
+  useEffect(() => {
+    /** ローカルストレージにfavoritesを登録 */
+    localStorage.setItem('favorites', JSON.stringify(favorites))
+  }, [favorites])
 
   const submitHandler = (e) => {
     const date = new Date()
@@ -72,32 +81,25 @@ export default function App () {
     }
   }
 
-  const removeHandler = (tweet) => {
+  /* const removeHandler = (tweet) => {
     setTweetList((current) => {
       return current.filter((x) => x !== tweet)
     })
     localStorage.setItem('tweetList', JSON.stringify(tweetList))
-  }
+  } */
 
   /** お気に入りを押したときの挙動 */
   const onClickFavorite = (tweet) => {
-    if (favorites.includes(tweet.id)) {
-      const index = favorites.indexOf(tweet.id)
-      favorites.splice(index, 1)
-    } else {
-      if (favorites.length > 0) {
-        setFavorites((current) => {
-          current.concat(tweet.id)
-        })
-      } else {
-        setFavorites([tweet.id])
-      }
+    console.log(tweet)
+    console.log(favorites.includes(tweet.id))
+    if (favorites.includes(tweet.id)) { /** 解除 */
+      setFavorites(favorites.filter(favorite => favorite !== tweet.id))
+    } else { /** 登録 */
+      setFavorites([tweet.id, ...favorites])
     }
-
-    setFavorites(favorites)
-    localStorage.setItem('favorites', JSON.stringify(favorites))
   }
 
+  /** 日付順でツイートを並べ替え */
   const sortTweetList = (_tweetList) => {
     return _tweetList.sort((a, b) => {
       return new Date(a.date) < new Date(b.date) ? 1 : -1
@@ -132,7 +134,6 @@ export default function App () {
                 tweet={tweet}
                 isFavorite={favorites.length ? (favorites).includes(tweet.id) : false}
                 onClickFavorite={onClickFavorite}
-                onClickRemove={() => { removeHandler(tweet) }}
               />
             ))}
           </List1>

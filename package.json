@@ -57,6 +57,7 @@
     "@storybook/preset-create-react-app": "^3.1.7",
     "@storybook/react": "^6.2.9",
     "axios": "^0.21.1",
+    "prop-types": "^15.8.1",
     "styled-components": "^5.3.3",
     "styled-media-query": "^2.1.2"
   }

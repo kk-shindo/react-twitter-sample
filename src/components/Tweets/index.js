@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Icon1 from '../Icon/Icon1'
 import User from '../../json/user.json'
@@ -11,6 +12,7 @@ import { theme } from '../../lib/theme'
 import Profile from '../Profile'
 import Text from './Text'
 import Button2 from '../Button/Button2'
+import List3 from '../List/List3'
 
 const StyledDiv1 = styled.div`
 padding: 16px;
@@ -29,20 +31,12 @@ padding: 8px;
 flex: 1 0;
 `
 
-const StyledList = styled.ul`
-display: flex;
-align-items: center;
+const StyledList3 = styled(List3)`
+margin-top: 16px;
 `
 
-const StyledListItem = styled.li`
-margin-left: 64px;
-display: flex;
-align-items: center;
-justify-content: center;
-
-&:first-child {
-  margin-left: 0;
-}
+const StyledText = styled(Text)`
+margin-top: 8px;
 `
 
 /** ツイート */
@@ -57,41 +51,53 @@ export default function Tweets({ tweet, isFavorite, onClickFavorite, ...props })
           user={user}
           tweet={tweet}
         />
-        <Text tweet={tweet.tweet} style={{marginTop: '8px'}} />
-        <StyledList className="c-list3" style={{marginTop: '16px'}}>
-          <StyledListItem className="c-list3__item">
-            <Button2>
-              <img
-                src="/img/icon/reply.svg"
-                width="16"
-                height="16"
-                alt="reply"
-              />
-            </Button2>
-          </StyledListItem>
-          <StyledListItem className="c-list3__item">
-            <Button2>
-              <img
-                src="/img/icon/retweet.svg"
-                width="16"
-                height="16"
-                alt="retweet"
-              />
-            </Button2>
-          </StyledListItem>
-          <StyledListItem className="c-list3__item">
-            <Button2
-              selected={isFavorite}
-              onClick={() => { onClickFavorite(tweet) }}
-            >
-              <InlineSvg
-                path="/img/icon/good.svg"
-                alt="favorite"
-              />
-            </Button2>
-          </StyledListItem>
-        </StyledList>
+        <StyledText tweet={tweet.tweet} />
+        <StyledList3>
+          <Button2>
+            <InlineSvg
+              path="/img/icon/reply.svg"
+              alt="reply"
+            />
+          </Button2>
+          <Button2>
+            <InlineSvg
+              path="/img/icon/retweet.svg"
+              alt="retweet"
+            />
+          </Button2>
+          <Button2
+            selected={isFavorite}
+            onClick={() => { onClickFavorite(tweet) }}
+          >
+            <InlineSvg
+              path="/img/icon/good.svg"
+              alt="favorite"
+            />
+          </Button2>
+        </StyledList3>
       </StyledDiv2>
     </StyledDiv1>
   )
+}
+
+Tweets.propTypes = {
+  tweet: PropTypes.shape({
+    date: PropTypes.string,
+    id: PropTypes.number,
+    tweet: PropTypes.string,
+    userId: PropTypes.string
+  }),
+  isFavorite: PropTypes.bool,
+  onClickFavorite: PropTypes.func
+}
+
+Tweets.defaultProps = {
+  tweet: {
+    date: '',
+    id: null,
+    tweet: '',
+    userId: ''
+  },
+  isFavorite: false,
+  onClickFavorite: () => {}
 }
